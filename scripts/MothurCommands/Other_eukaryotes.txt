@@ -1,0 +1,29 @@
+unique.seqs(fasta=PrV9.trim.contigs.good.renamed.fasta)
+count.seqs(name=PrV9.trim.contigs.good.renamed.names, group=PrV9.contigs.good.renamed.groups)
+chimera.vsearch(fasta=PrV9.trim.contigs.good.renamed.unique.fasta, count=PrV9.trim.contigs.good.renamed.count_table, processors=12)
+remove.seqs(accnos=PrV9.trim.contigs.good.renamed.unique.denovo.vsearch.accnos, fasta=PrV9.trim.contigs.good.renamed.unique.fasta, count=PrV9.trim.contigs.good.renamed.count_table)
+system(cutadapt -g "ATAACAGGTCTGTGATGCCC;max_error_rate=0.15;min_overlap=5" -o PrV9.trim.contigs.good.renamed.unique.pick.cutadapt1.fasta  PrV9.trim.contigs.good.renamed.unique.pick.fasta --cores=12)
+system(cutadapt -a "GTAGGTGAACCTGCAGAAGGATCA;max_error_rate=0.15;min_overlap=5" -m 30 -o PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.fasta PrV9.trim.contigs.good.renamed.unique.pick.cutadapt1.fasta --cores=12)
+list.seqs(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.fasta)
+get.seqs(accnos=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.accnos, count=PrV9.trim.contigs.good.renamed.pick.count_table)
+unique.seqs(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.fasta, count=PrV9.trim.contigs.good.renamed.pick.pick.count_table)
+screen.seqs(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.fasta, count=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.count_table, minlength=30)
+classify.seqs(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.fasta, template=Pr_PhiX.fasta, taxonomy=Pr_taxomomy_PhiX.tax, processors=12)
+
+remove.groups(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.fasta, count=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.count_table, groups=PrV9.A48-PrV9.B37-PrV9.C41-PrV9.D48-PrV9.E18-PrV9.F37-PrV9.G17-PrV9.H42-PrV9.I29-PrV9.J96-PrV9.K11-PrV9.L2-PrV9.M52, taxonomy=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.Pr_taxomomy_PhiX.wang.taxonomy)
+
+cluster(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.fasta, count=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.pick.count_table, method=dgc, cutoff=0.03)
+
+split.abund(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.fasta, count=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.pick.count_table, list=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.dgc.list, cutoff=50)
+
+classify.otu(taxonomy=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.Pr_taxomomy_PhiX.wang.pick.taxonomy, list=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.dgc.0.03.abund.list, count=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.pick.0.03.abund.count_table)
+
+make.shared(list=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.dgc.0.03.abund.list, count=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.pick.0.03.abund.count_table)
+
+remove.lineage(constaxonomy=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.dgc.0.03.abund.0.03.cons.taxonomy, shared=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.dgc.0.03.abund.shared, taxon=unknown-PhiX-Arabidopsis-mitochondria-Chloroplast-Embryophyceae)
+
+get.oturep(fasta=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.0.03.abund.fasta, list=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.unique.good.pick.dgc.0.03.abund.list, count=PrV9.trim.contigs.good.renamed.unique.pick.cutadapt2.pick.0.03.abund.count_table, method=abundance)
+
+
+
+
